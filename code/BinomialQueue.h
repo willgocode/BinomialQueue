@@ -92,8 +92,8 @@ class BinomialQueue
     /**
      * Insert item x into the priority queue; allows duplicates.
      */
-    void insert( const Comparable & x )
-      { BinomialQueue oneItem{ x }; merge( oneItem ); }
+	void insert( Comparable & x )
+	  {	BinomialQueue oneItem{ x }; merge( oneItem ); }
 
     /**
      * Insert item x into the priority queue; allows duplicates.
@@ -154,7 +154,6 @@ class BinomialQueue
         for( auto & root : theTrees )
             makeEmpty( root );
     }
-
     /**
      * Merge rhs into the priority queue.
      * rhs becomes empty. rhs must be different from this.
@@ -175,8 +174,7 @@ class BinomialQueue
             for( int i = oldNumTrees; i < newNumTrees; ++i )
                 theTrees[ i ] = nullptr;
         }
-
-        BinomialNode *carry = nullptr;
+		BinomialNode *carry = nullptr;
         for( int i = 0, j = 1; j <= currentSize; ++i, j *= 2 )
         {
             BinomialNode *t1 = theTrees[ i ];
@@ -231,8 +229,8 @@ class BinomialQueue
         Comparable    element;
         BinomialNode *leftChild;
         BinomialNode *nextSibling;
-
-        BinomialNode( const Comparable & e, BinomialNode *lt, BinomialNode *rt )
+		
+		BinomialNode( const Comparable & e, BinomialNode *lt, BinomialNode *rt )
           : element{ e }, leftChild{ lt }, nextSibling{ rt } { }
         
         BinomialNode( Comparable && e, BinomialNode *lt, BinomialNode *rt )
