@@ -1,9 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include "BinQueuePlusPlus.h"
-//#include "QuadraticProbing.h"
-//#include "BinomialQueue.h"
-//#include "BinomialNode.h"
 
 using namespace std;
 
@@ -38,9 +35,12 @@ int main(){
 		coolBin.binDeleteMin();
 	}
 
-	cout << "Please enter a string to search for: ";
+	//cout << "Please enter a string to search for: ";
+	//cin >> line;
+	//coolBin.find(line);	
+	cout << "Enter a string to remove: ";
 	cin >> line;
-	coolBin.find(line);
+	coolBin.remove(line);
 
 	return 0;
 }

@@ -227,6 +227,9 @@ class BinomialQueue
         rhs.currentSize = 0;
     }    
 
+	void percolateUp(BinomialNode * targetNode)const{
+		decreaseKey(targetNode);
+	}
 	//void remove(string key){
 	//	find(key);
 	//}
@@ -240,19 +243,30 @@ class BinomialQueue
 	void decreaseKey(BinomialNode *targetNode)const{
 		BinomialNode *tempNode, *tempNode2;
 		while(findMin() != targetNode -> element){
-			tempNode = targetNode -> parent;
-			tempNode2 = targetNode;
-			targetNode -> parent = tempNode -> parent;
-			targetNode -> leftChild = tempNode;		//swap with parent
-			targetNode -> nextSibling = tempNode -> nextSibling;
-			tempNode -> leftChild = tempNode2 -> leftChild;
-			tempNode -> nextSibling = tempNode2 -> nextSibling;
-			if(tempNode -> parent != NULL){
-				tempNode = tempNode->parent;			//tempNode == parent of parent
-				tempNode -> leftChild = targetNode;		
-			}//routing parent of parent to currNode
+			if(tempNode-> element != findMin()){
+				tempNode = targetNode -> parent;		//tempnode is parent
+				tempNode2 = tempNode -> parent;		//tempnode is parent of parent
+			}
+			tempNode -> leftChild = targetNode;		//set child of temp to target
+			targetNode -> leftChild = tempNode;		//move parent to child of target
+			tempNode -> leftChild = targetNode -> leftChild;
+			tempNode2 = tempNode;
+			tempNode -> nextSibling = targetNode -> nextSibling;
+			targetNode -> nextSibling = tempNode2 -> nextSibling;
+			//if(tempNode -> parent != NULL){
+				//tempNode = tempNode->parent;			//tempNode == parent of parent
+				//cout<< "tempNode is equal to its parent\n" <<endl;
+				//tempNode -> leftChild = targetNode;		
+			//}//routing parent of parent to currNode
+			//tempNode2 = targetNode;
+			//targetNode -> parent = tempNode -> parent;
+			//targetNode -> leftChild = tempNode;		//swap with parent
+			//targetNode -> nextSibling = tempNode -> nextSibling;
+			//tempNode -> leftChild = tempNode2 -> leftChild;
+			//tempNode -> nextSibling = tempNode2 -> nextSibling;
 		}
 	}
+
     /**
      * Find index of tree containing the smallest item in the priority queue.
      * The priority queue must not be empty.

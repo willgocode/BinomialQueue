@@ -31,13 +31,28 @@ class BinQueuePlusPlus{
 	//begin bin functions
 	void binInsert(BinomialNode * key){theQueue.insert(key);}
 
-	void binDeleteMin(){theQueue.deleteMin();}
+	void binDeleteMin(){
+		string key = theQueue.findMin();
+		theHash.remove(key);
+		theQueue.deleteMin();
+	}
 
 	bool isEmpty() const{return theQueue.isEmpty();}
 
 	void deleteBin(){theQueue.makeEmpty();}
 
 	void minBin(){cout<< "The minimum element in the queue is: " << theQueue.findMin() <<endl;}
+	//begin remove function;
+
+	void remove(string key){
+		BinomialNode * tempPtr;
+		tempPtr = theHash.find(key);
+	//	theQueue.percolateUp(tempPtr);
+		//cout << theQueue.findMin()<<endl;
+		//theQueue.deleteMin();
+		//cout << "the key \"" << key << " has been deleted." <<endl;
+	}
+
 	private:
 	BinomialQueue<string> theQueue;
 	HashTable<string, BinomialNode> theHash;
