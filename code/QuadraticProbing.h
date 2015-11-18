@@ -100,7 +100,7 @@ class HashTable
 		EntryType info;
 
         HashEntry( const HashedObj & e = HashedObj{ }, HashedPtr *ptr = nullptr, EntryType i = EMPTY )
-          : element{ e }, nodePtr(ptr),info{ i } { }
+          : element{ e }, nodePtr{ptr},info{ i } { }
         
         //HashEntry( HashedObj && e, EntryType i = EMPTY )
           //: element{ std::move( e ) }, info{ i } { }
