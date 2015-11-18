@@ -243,7 +243,8 @@ class BinomialQueue
 	void decreaseKey(BinomialNode *targetNode)const{
 		BinomialNode *tempNode, *tempNode2;
 		while(findMin() != targetNode -> element){
-			if(tempNode-> element != findMin()){
+			
+			/*if(tempNode-> element != findMin()){
 				tempNode = targetNode -> parent;		//tempnode is parent
 				tempNode2 = tempNode -> parent;		//tempnode is parent of parent
 			}
@@ -263,7 +264,7 @@ class BinomialQueue
 			//targetNode -> leftChild = tempNode;		//swap with parent
 			//targetNode -> nextSibling = tempNode -> nextSibling;
 			//tempNode -> leftChild = tempNode2 -> leftChild;
-			//tempNode -> nextSibling = tempNode2 -> nextSibling;
+			*///tempNode -> nextSibling = tempNode2 -> nextSibling;
 		}
 	}
 
