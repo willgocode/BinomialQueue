@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <functional>
 #include <string>
+#include <iostream>
+
 using namespace std;
 
 int nextPrime( int n );
@@ -20,14 +22,14 @@ int nextPrime( int n );
 // void makeEmpty( )      --> Remove all items
 // int hashCode( string str ) --> Global method to hash strings
 
-template <typename HashedObj>
+template <typename HashedObj, typename HashedPtr>
 class HashTable
 {
   public:
     explicit HashTable( int size = 101 ) : array( nextPrime( size ) )
       { makeEmpty( ); }
 
-    bool contains( const HashedObj & x ) const
+	bool contains( const HashedObj & x ) const
     {
         return isActive( findPos( x ) );
     }
@@ -39,7 +41,7 @@ class HashTable
             entry.info = EMPTY;
     }
 
-    bool insert( const HashedObj & x )
+    bool insert( const HashedObj & x, HashedPtr *ptrNode )
     {
             // Insert x as active
         int currentPos = findPos( x );
@@ -48,6 +50,7 @@ class HashTable
 
         array[ currentPos ].element = x;
         array[ currentPos ].info = ACTIVE;
+		array[ currentPos ].nodePtr = ptrNode;
 
             // Rehash; see Section 5.5
         if( ++currentSize > array.size( ) / 2 )
@@ -56,7 +59,7 @@ class HashTable
         return true;
     }
     
-    bool insert( HashedObj && x )
+    /*bool insert( HashedObj && x )
     {
             // Insert x as active
         int currentPos = findPos( x );
@@ -71,7 +74,7 @@ class HashTable
             rehash( );
 
         return true;
-    }
+    }*/
 
     bool remove( const HashedObj & x )
     {
@@ -83,19 +86,24 @@ class HashTable
         return true;
     }
 
-    enum EntryType { ACTIVE, EMPTY, DELETED };
+	HashedPtr * find(const HashedObj & key) const{
+		return getHashedPtr(key);
+	}
+
+	enum EntryType { ACTIVE, EMPTY, DELETED };
 
   private:
     struct HashEntry
     {
         HashedObj element;
-        EntryType info;
+        HashedPtr *nodePtr;
+		EntryType info;
 
-        HashEntry( const HashedObj & e = HashedObj{ }, EntryType i = EMPTY )
-          : element{ e }, info{ i } { }
+        HashEntry( const HashedObj & e = HashedObj{ }, HashedPtr *ptr = nullptr, EntryType i = EMPTY )
+          : element{ e }, nodePtr(ptr),info{ i } { }
         
-        HashEntry( HashedObj && e, EntryType i = EMPTY )
-          : element{ std::move( e ) }, info{ i } { }
+        //HashEntry( HashedObj && e, EntryType i = EMPTY )
+          //: element{ std::move( e ) }, info{ i } { }
     };
     
     vector<HashEntry> array;
@@ -121,6 +129,15 @@ class HashTable
         return currentPos;
     }
 
+	HashedPtr * getHashedPtr(const HashedObj & key) const{
+		if(!contains(key)){
+			cout << "The key \"" << key << "\" was not found. " << endl;
+			return 0;
+		}
+		cout << "The key \"" << key << "\" was found in position: " << findPos(key) << " ." << endl;
+		return array[findPos(key)].nodePtr;
+	}
+
     void rehash( )
     {
         vector<HashEntry> oldArray = array;
@@ -134,12 +151,12 @@ class HashTable
         currentSize = 0;
         for( auto & entry : oldArray )
             if( entry.info == ACTIVE )
-                insert( std::move( entry.element ) );
+                insert( std::move( entry.element ), std::move(entry.nodePtr ));
     }
 
     size_t myhash( const HashedObj & x ) const
     {
-        static hash<HashedObj> hf;
+        static hash<string> hf;
         return hf( x ) % array.size( );
     }
 };

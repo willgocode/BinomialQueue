@@ -1,6 +1,7 @@
 #ifndef BINOMIAL_QUEUE_H
 #define BINOMIAL_QUEUE_H
 
+#include "BinomialNode.h"
 #include <iostream>
 #include <vector>
 #include "dsexceptions.h"
@@ -31,8 +32,8 @@ class BinomialQueue
         currentSize = 0;
     }
 
-    BinomialQueue( const Comparable & item ) : theTrees( 1 ), currentSize{ 1 }
-      { theTrees[ 0 ] = new BinomialNode{ item, nullptr, nullptr }; }
+    BinomialQueue( BinomialNode * node ) : theTrees( 1 ), currentSize{ 1 }
+      { theTrees[ 0 ] = node; } 
 
     BinomialQueue( const BinomialQueue & rhs )
       : theTrees( rhs.theTrees.size( ) ),currentSize{ rhs.currentSize }
@@ -92,16 +93,18 @@ class BinomialQueue
     /**
      * Insert item x into the priority queue; allows duplicates.
      */
-    void insert( const Comparable & x )
-      { BinomialQueue oneItem{ x }; merge( oneItem ); }
+
+	void insert( BinomialNode * x )
+	  { BinomialQueue oneItem{ x }; merge( oneItem ); }
 
     /**
      * Insert item x into the priority queue; allows duplicates.
-     */
+     
     void insert( Comparable && x )
       { BinomialQueue oneItem{ std::move( x ) }; merge( oneItem ); }
-    
-    /**
+    */
+
+	/**
      * Remove the smallest item from the priority queue.
      * Throws UnderflowException if empty.
      */
@@ -224,26 +227,32 @@ class BinomialQueue
         rhs.currentSize = 0;
     }    
 
+	//void remove(string key){
+	//	find(key);
+	//}
 
   private:
-    struct BinomialNode
-    {
-        Comparable    element;
-        BinomialNode *leftChild;
-        BinomialNode *nextSibling;
-
-        BinomialNode( const Comparable & e, BinomialNode *lt, BinomialNode *rt )
-          : element{ e }, leftChild{ lt }, nextSibling{ rt } { }
-        
-        BinomialNode( Comparable && e, BinomialNode *lt, BinomialNode *rt )
-          : element{ std::move( e ) }, leftChild{ lt }, nextSibling{ rt } { }
-    };
-
     const static int DEFAULT_TREES = 1;
 
     vector<BinomialNode *> theTrees;  // An array of tree roots
     int currentSize;                  // Number of items in the priority queue
-    
+
+	void decreaseKey(BinomialNode *targetNode)const{
+		BinomialNode *tempNode, *tempNode2;
+		while(findMin() != targetNode -> element){
+			tempNode = targetNode -> parent;
+			tempNode2 = targetNode;
+			targetNode -> parent = tempNode -> parent;
+			targetNode -> leftChild = tempNode;		//swap with parent
+			targetNode -> nextSibling = tempNode -> nextSibling;
+			tempNode -> leftChild = tempNode2 -> leftChild;
+			tempNode -> nextSibling = tempNode2 -> nextSibling;
+			if(tempNode -> parent != NULL){
+				tempNode = tempNode->parent;			//tempNode == parent of parent
+				tempNode -> leftChild = targetNode;		
+			}//routing parent of parent to currNode
+		}
+	}
     /**
      * Find index of tree containing the smallest item in the priority queue.
      * The priority queue must not be empty.
