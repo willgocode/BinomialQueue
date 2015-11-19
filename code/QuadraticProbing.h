@@ -41,6 +41,7 @@ class HashTable
             entry.info = EMPTY;
     }
 
+	//This is modified to accept a pointer and an object
     bool insert( const HashedObj & x, HashedPtr *ptrNode )
     {
             // Insert x as active
@@ -86,6 +87,7 @@ class HashTable
         return true;
     }
 
+	//Function to find an element in the hash table, will run private function
 	HashedPtr * find(const HashedObj & key) const{
 		return getHashedPtr(key);
 	}
@@ -129,6 +131,8 @@ class HashTable
         return currentPos;
     }
 
+	//Function to get the element. Will cout if key is not found
+	//Returns a pointer if found
 	HashedPtr * getHashedPtr(const HashedObj & key) const{
 		if(!contains(key)){
 			cout << "The key \"" << key << "\" was not found. " << endl;

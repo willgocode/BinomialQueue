@@ -227,46 +227,31 @@ class BinomialQueue
         rhs.currentSize = 0;
     }    
 
-	void percolateUp(BinomialNode * targetNode)const{
-		decreaseKey(targetNode);
-	}
-	//void remove(string key){
-	//	find(key);
-	//}
+	void decreaseKey(BinomialNode * targetNode){		//This function will decreaseKey of node
+		BinomialNode * tempNode1;
+		BinomialNode * tempNode2;
 
-  private:
+		string tempString;
+
+		targetNode -> element = "0";
+		tempNode1 = targetNode;
+		tempNode2 = targetNode-> parent;
+
+		while(tempNode2 != NULL && (tempNode1 -> element < tempNode2 -> element)){	//Compare with parent element
+			tempString = tempNode2 -> element;
+			tempNode1 -> element = tempNode2 -> element;
+			tempNode2 -> element = tempString;
+
+			tempNode1 = tempNode2;
+			tempNode2 = tempNode2 -> parent;
+		}
+	}
+
+	private:
     const static int DEFAULT_TREES = 1;
 
     vector<BinomialNode *> theTrees;  // An array of tree roots
     int currentSize;                  // Number of items in the priority queue
-
-	void decreaseKey(BinomialNode *targetNode)const{
-		BinomialNode *tempNode, *tempNode2;
-		while(findMin() != targetNode -> element){
-			
-			/*if(tempNode-> element != findMin()){
-				tempNode = targetNode -> parent;		//tempnode is parent
-				tempNode2 = tempNode -> parent;		//tempnode is parent of parent
-			}
-			tempNode -> leftChild = targetNode;		//set child of temp to target
-			targetNode -> leftChild = tempNode;		//move parent to child of target
-			tempNode -> leftChild = targetNode -> leftChild;
-			tempNode2 = tempNode;
-			tempNode -> nextSibling = targetNode -> nextSibling;
-			targetNode -> nextSibling = tempNode2 -> nextSibling;
-			//if(tempNode -> parent != NULL){
-				//tempNode = tempNode->parent;			//tempNode == parent of parent
-				//cout<< "tempNode is equal to its parent\n" <<endl;
-				//tempNode -> leftChild = targetNode;		
-			//}//routing parent of parent to currNode
-			//tempNode2 = targetNode;
-			//targetNode -> parent = tempNode -> parent;
-			//targetNode -> leftChild = tempNode;		//swap with parent
-			//targetNode -> nextSibling = tempNode -> nextSibling;
-			//tempNode -> leftChild = tempNode2 -> leftChild;
-			*///tempNode -> nextSibling = tempNode2 -> nextSibling;
-		}
-	}
 
     /**
      * Find index of tree containing the smallest item in the priority queue.

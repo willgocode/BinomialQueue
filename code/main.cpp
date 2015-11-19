@@ -8,40 +8,39 @@ int main(){
 	string line;			
 	BinQueuePlusPlus coolBin;
 	
-	//HashTable<string, BinomialNode> myHash;
-	//BinomialQueue<string> myQueue;
-
-	ifstream textFile("words.txt");
+	ifstream textFile("words.txt");							//open textfile
 
 	if(textFile.is_open()){
 		int counter = 0;
-		while(getline(textFile, line)){	
+		while(getline(textFile, line)){						//populate queue and hash table
 			BinomialNode * tempNode;
 			tempNode = new BinomialNode(line, nullptr, nullptr, nullptr);
 			coolBin.binInsert(tempNode);
 			counter++;
 			coolBin.hashInsert(line, tempNode);
-			
 		}
 		cout << "Total number of insertions into the binomial queue: " << counter <<endl;
 		textFile.close();
 	}
 	else{
-		cout << "File not found." <<endl;
+		cout << "File not found." <<endl;					
 	}
 
-	for(int i = 0; i < 11; ++i){
-		coolBin.minBin();
+	for(int i = 0; i < 11; ++i){							//deleting 10 times, find the min in Queue then
+		coolBin.minBin();                                   //then delete it
 		coolBin.binDeleteMin();
 	}
 
-	//cout << "Please enter a string to search for: ";
-	//cin >> line;
-	//coolBin.find(line);	
-	cout << "Enter a string to remove: ";
+	cout << "Please enter a string to search for: ";		//finding in hash table through user input
 	cin >> line;
-	coolBin.remove(line);
-
+	coolBin.find(line);	
+	
+	for(int i = 0; i <= 5; ++i){
+		cout << "Enter a string to remove: ";					//removing 5 times by user input
+		cin >> line;
+		coolBin.remove(line);
+		coolBin.find(line);
+	}
 	return 0;
 }
 
