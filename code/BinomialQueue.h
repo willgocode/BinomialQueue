@@ -228,22 +228,19 @@ class BinomialQueue
     }    
 
 	void decreaseKey(BinomialNode * targetNode){		//This function will decreaseKey of node
-		BinomialNode * tempNode1;
-		BinomialNode * tempNode2;
+		BinomialNode * tempNode;
 
 		string tempString;
 
 		targetNode -> element = "0";
-		tempNode1 = targetNode;
-		tempNode2 = targetNode-> parent;
+		tempNode = targetNode-> parent;
 
-		while(tempNode2 != NULL && (tempNode1 -> element < tempNode2 -> element)){	//Compare with parent element
-			tempString = tempNode2 -> element;
-			tempNode1 -> element = tempNode2 -> element;
-			tempNode2 -> element = tempString;
-
-			tempNode1 = tempNode2;
-			tempNode2 = tempNode2 -> parent;
+		while(tempNode != NULL && (targetNode-> element < tempNode -> element)){	//Compare with parent element
+			tempString = tempNode -> element;
+			targetNode -> element = tempNode -> element;
+			tempNode -> element = tempString;
+			targetNode = tempNode;
+			tempNode = tempNode -> parent;
 		}
 	}
 

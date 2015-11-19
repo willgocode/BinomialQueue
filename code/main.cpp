@@ -1,3 +1,6 @@
+//Writted by William Wu.
+//This is a program to find a key in a hash table and delete the element in a BinomialQueue in constant time.
+
 #include <iostream>
 #include <fstream>
 #include "BinQueuePlusPlus.h"
@@ -26,7 +29,7 @@ int main(){
 		cout << "File not found." <<endl;					
 	}
 
-	for(int i = 0; i < 11; ++i){							//deleting 10 times, find the min in Queue then
+	for(int i = 0; i < 10; ++i){							//deleting 10 times, find the min in Queue then
 		coolBin.minBin();                                   //then delete it
 		coolBin.binDeleteMin();
 	}
@@ -35,7 +38,7 @@ int main(){
 	cin >> line;
 	coolBin.find(line);	
 	
-	for(int i = 0; i <= 5; ++i){
+	for(int i = 0; i < 5; ++i){
 		cout << "Enter a string to remove: ";					//removing 5 times by user input
 		cin >> line;
 		coolBin.remove(line);
